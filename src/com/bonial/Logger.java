@@ -1,4 +1,4 @@
-package com.bonial.csv;
+package com.bonial;
 
 /**
  * CSVDiff

@@ -1,5 +1,8 @@
 package com.bonial.csv;
 
+import com.bonial.Logger;
+import com.bonial.interfaces.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,13 +18,13 @@ import java.io.File;
  * View of the application.
  */
 
-public class CSVView {
+public class CSVDiffView {
 
     private final String IMPORTOLD = "Import old CSV file: ";
     private final String IMPORTNEW = "Import new CSV file: ";
     private final String RESULT = "Result: ";
 
-    private CSVController csvController;
+    private Controller csvDiffController;
 
     private JFrame frame;
     private JLabel importOldFileLabel;
@@ -36,8 +39,8 @@ public class CSVView {
     private File oldFile;
     private File newFile;
 
-    public CSVView(CSVController controller) {
-        csvController = controller;
+    public CSVDiffView(Controller controller) {
+        csvDiffController = controller;
         initialize();
     }
 
@@ -50,7 +53,7 @@ public class CSVView {
 
         int maxWidth = frame.getWidth() - 40;
 
-        importOldFileLabel = new JLabel("Old CSV file: ");
+        importOldFileLabel = new JLabel("Old file: ");
         importOldFileLabel.setBounds(20, 20, maxWidth, 40);
         importOldFileLabel.setVisible(true);
         frame.add(importOldFileLabel);
@@ -74,7 +77,7 @@ public class CSVView {
         });
         frame.add(importOldFileButton);
 
-        importNewFileLabel = new JLabel("New CSV file: ");
+        importNewFileLabel = new JLabel("New file: ");
         importNewFileLabel.setBounds(20, 100, maxWidth, 40);
         importNewFileLabel.setVisible(true);
         frame.add(importNewFileLabel);
@@ -109,7 +112,7 @@ public class CSVView {
             public void actionPerformed(ActionEvent e) {
                 Logger.log("Remove duplicates button clicked");
                 importResultLabel.setText("Improving both files and removing duplicates");
-                String result = csvController.processFiles(oldFile, newFile);
+                String result = csvDiffController.processFiles(oldFile, newFile);
                 importResultLabel.setText(RESULT + result);
                 tempLabel1.setVisible(false);
                 tempLabel2.setVisible(false);
