@@ -1,4 +1,4 @@
-package com.bonial.interfaces;
+package com.bork.interfaces;
 
 import java.io.File;
 
@@ -7,12 +7,12 @@ import java.io.File;
  *
  * @author Konstantin Bork
  * @version 0.1
- * @created 12/08/2015
- * <p/>
+ * @created 12/10/2015
+ * <p>
  * §DESCRIPTION§
  */
 
-public interface Model {
+public interface Helper {
 
     /**
      * Removes duplicate information from newFile. It is assumed that both input files have the same file extension.
@@ -20,6 +20,6 @@ public interface Model {
      * @param newFile the second input file which contains edited and new data only
      * @return a String containing information about the result
      */
-    String removeDuplicates(File oldFile, File newFile);
+    String removeDuplicates(File oldFile,File newFile);
 
 }
