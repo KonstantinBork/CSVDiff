@@ -6,8 +6,8 @@ package com.bork.main;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- * <p>
- * §DESCRIPTION§
+ *
+ * Not used at the moment.
  */
 
 public class CSVDiffView {
