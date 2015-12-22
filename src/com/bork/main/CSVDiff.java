@@ -30,6 +30,10 @@ public class CSVDiff extends Application {
     }
 
     public static void main(String[] args) {
+        final String WELCOME_MESSAGE =
+                "Welcome to CSVDiff!\n" +
+                "Import two files and remove duplicated data.";
+        Logger.log(WELCOME_MESSAGE);
         launch(args);
     }
 

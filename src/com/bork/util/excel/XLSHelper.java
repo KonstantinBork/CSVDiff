@@ -1,5 +1,6 @@
 package com.bork.util.excel;
 
+import com.bork.interfaces.Controller;
 import com.bork.interfaces.Helper;
 import com.bork.main.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -18,14 +19,20 @@ import java.util.List;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- * <p>
+ *
  * §DESCRIPTION§
  */
 
 public class XLSHelper implements Helper {
 
+    private Controller controller;
+
+    public XLSHelper(Controller c) {
+        controller = c;
+    }
+
     @Override
-    public String removeDuplicates(File oldFile, File newFile, File saveFile) {
+    public void removeDuplicates(File oldFile, File newFile, File saveFile) {
         try {
             HSSFWorkbook oldWorkbook = new HSSFWorkbook(new FileInputStream(oldFile));
             HSSFWorkbook newWorkbook = new HSSFWorkbook(new FileInputStream(newFile));
@@ -37,11 +44,8 @@ public class XLSHelper implements Helper {
             List<List<String>> sheet2Contents = ExcelHelper.getSheetContents(newWorkbook, sheet2);
             sheet2Contents.removeAll(sheet1Contents);
             writeToNewFile(saveFile, sheet2Contents);
-            Logger.log("");
-            return "New file successfully shortened!";
         } catch (IOException e) {
             e.printStackTrace();
-            return "Exception caught, please check logs.";
         }
     }
 

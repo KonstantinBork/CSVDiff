@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane fx:controller="com.bork.main.CSVDiffController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bork.main.CSVDiffController">
     <children>
-        <Button id="importBtn1" layoutX="47.0" layoutY="113.0" mnemonicParsing="false" prefHeight="50.0"
-                prefWidth="150.0" text="Import old file" onAction="#importOldFile"/>
-        <Button id="importBtn2" layoutX="403.0" layoutY="113.0" mnemonicParsing="false" prefHeight="50.0"
-                prefWidth="150.0" text="Import new file" onAction="#importNewFile"/>
-        <Button id="runBtn" layoutX="225.0" layoutY="228.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0"
-                text="Run" onAction="#runProcessFiles"/>
-        <Label fx:id="importLbl1" layoutX="47.0" layoutY="56.0" text="File name: "/>
-        <Label fx:id="importLbl2" layoutX="403.0" layoutY="56.0" text="File name: "/>
-        <Label fx:id="infoLbl" layoutX="203.0" layoutY="106.0" text="Run: "/>
+        <Button id="importBtn1" layoutX="48.0" layoutY="66.0" mnemonicParsing="false" onAction="#importOldFile" prefHeight="50.0" prefWidth="345.0" text="Import old file" />
+        <Button id="importBtn2" layoutX="48.0" layoutY="155.0" mnemonicParsing="false" onAction="#importNewFile" prefHeight="50.0" prefWidth="345.0" text="Import new file" />
+        <Button id="runBtn" layoutX="48.0" layoutY="245.0" mnemonicParsing="false" onAction="#runProcessFiles" prefHeight="50.0" prefWidth="345.0" text="Run" />
+        <Label fx:id="importLbl1" layoutX="48.0" layoutY="41.0" text="File name: ">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
+        <Label fx:id="importLbl2" layoutX="48.0" layoutY="127.0" text="File name: ">
+        <font>
+            <Font name="System Bold" size="13.0" />
+        </font></Label>
+      <Label fx:id="file1Lbl" layoutX="118.0" layoutY="41.0" prefHeight="17.0" prefWidth="394.0" />
+      <Label fx:id="file2Lbl" layoutX="118.0" layoutY="127.0" prefHeight="17.0" prefWidth="394.0" />
+      <Label layoutX="48.0" layoutY="308.0" text="Processing can take some time.&#10;Please don't close this window until progress is completed." />
+      <ProgressBar fx:id="progressBar" layoutX="48.0" layoutY="214.0" prefHeight="20.0" prefWidth="345.0" progress="0.0" />
     </children>
 </Pane>

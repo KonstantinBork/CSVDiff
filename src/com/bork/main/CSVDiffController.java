@@ -1,5 +1,7 @@
 package com.bork.main;
 
+import com.bork.exceptions.FileNotSupportedException;
+import com.bork.exceptions.NotSameTypeException;
 import com.bork.interfaces.Controller;
 import com.bork.interfaces.Helper;
 import com.bork.util.csv.CSVHelper;
@@ -8,12 +10,14 @@ import com.bork.util.excel.XLSXHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * CSVDiff
@@ -28,43 +32,56 @@ import java.io.File;
 public class CSVDiffController implements Controller {
 
     @FXML
-    private Label importLbl1;
+    private Label file1Lbl;
     @FXML
-    private Label importLbl2;
+    private Label file2Lbl;
     @FXML
-    private Label infoLbl;
+    private ProgressBar progressBar;
 
     private File oldInputFile;
     private File newInputFile;
 
     @Override
-    public String processFiles(File oldFile, File newFile, File saveFile) {
+    public void processFiles(File oldFile, File newFile, File saveFile) throws NullPointerException, NotSameTypeException, FileNotSupportedException {
         Logger.log("Checking input files");
         if (checkIfOneFileIsNull(oldFile, newFile)) {
-            return "Please import files!";
+            throw new NullPointerException();
         } else if (!filesHaveSameType(oldFile, newFile)) {
-            return "Please check your files, they are not of the same type!";
+            throw new NotSameTypeException();
         }
         String fileType = FilenameUtils.getExtension(newFile.getName());
-        String message = "File type is not supported!";
         Helper fileHelper;
         switch (fileType) {
             case "csv":
-                fileHelper = new CSVHelper();
+                fileHelper = new CSVHelper(this);
                 break;
             case "xls":
-                fileHelper = new XLSHelper();
+                fileHelper = new XLSHelper(this);
                 break;
             case "xlsx":
-                fileHelper = new XLSXHelper();
+                fileHelper = new XLSXHelper(this);
                 break;
             default:
                 fileHelper = null;
+                throw new FileNotSupportedException();
         }
         if (fileHelper != null) {
-            message = fileHelper.removeDuplicates(oldFile, newFile, saveFile);
+            boolean saveFileExists = saveFile.exists();
+            if(!saveFileExists) {
+                try {
+                    saveFile.createNewFile();
+                } catch (IOException e) {
+                    Logger.log("Save file could not be created!");
+                    e.printStackTrace();
+                }
+            }
+            fileHelper.removeDuplicates(oldFile, newFile, saveFile);
         }
-        return message;
+    }
+
+    @Override
+    public void setProgress(double value) {
+        progressBar.setProgress(value);
     }
 
     private boolean checkIfOneFileIsNull(File oldFile, File newFile) {
@@ -81,31 +98,58 @@ public class CSVDiffController implements Controller {
      * UI operations
      */
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void importOldFile(ActionEvent actionEvent) {
         try {
             oldInputFile = importFile();
-            importLbl1.setText("File name: " + oldInputFile.getName());
+            file1Lbl.setText("File name: " + oldInputFile.getName());
         } catch (NullPointerException e) {
+            Logger.log("Old file is not selected!");
             e.printStackTrace();
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void importNewFile(ActionEvent actionEvent) {
         try {
             newInputFile = importFile();
-            importLbl2.setText("File name: " + newInputFile.getName());
+            file2Lbl.setText("File name: " + newInputFile.getName());
         } catch (NullPointerException e) {
+            Logger.log("New file is not selected!");
             e.printStackTrace();
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void runProcessFiles(ActionEvent actionEvent) {
+        File saveFile = null;
         try {
             String fileExtension = FilenameUtils.getExtension(oldInputFile.getName());
-            File saveFile = saveFile("*." + fileExtension);
-            String message = processFiles(oldInputFile, newInputFile, saveFile);
-            infoLbl.setText(message);
+            Logger.log("File extension is " + fileExtension + ".");
+            saveFile = saveFile("*." + fileExtension);
         } catch (NullPointerException e) {
+            Logger.log("Save file is not selected!");
+            e.printStackTrace();
+        }
+        try {
+            processFiles(oldInputFile, newInputFile, saveFile);
+        } catch(NullPointerException e) {
+            Logger.log("At least one input file is not selected!");
+            e.printStackTrace();
+        } catch (NotSameTypeException e) {
+            Logger.log("Input files do not have the same type!");
+            e.printStackTrace();
+        } catch (FileNotSupportedException e) {
+            Logger.log("Type of input files is not supported!");
             e.printStackTrace();
         }
     }

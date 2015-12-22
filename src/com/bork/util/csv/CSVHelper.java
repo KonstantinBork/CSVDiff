@@ -1,5 +1,6 @@
 package com.bork.util.csv;
 
+import com.bork.interfaces.Controller;
 import com.bork.interfaces.Helper;
 import com.bork.main.Logger;
 import org.apache.commons.io.FileUtils;
@@ -17,28 +18,40 @@ import java.util.List;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- * <p>
+ *
  * §DESCRIPTION§
  */
 
 public class CSVHelper implements Helper {
 
+    private final double FILE1PROGRESS;
+    private final double FILE2PROGRESS;
+    private Controller controller;
+
+    public CSVHelper(Controller c) {
+        controller = c;
+        FILE1PROGRESS = 0.48;
+        FILE2PROGRESS = 0.96;
+    }
+
     @Override
-    public String removeDuplicates(File oldFile, File newFile, File saveFile) {
+    public void removeDuplicates(File oldFile, File newFile, File saveFile) {
         try {
             improveContentOfInputFiles(oldFile, newFile);
             Logger.log("Reading old file");
             List<String> oldFileLines = FileUtils.readLines(oldFile);
+            controller.setProgress(FILE2PROGRESS + 0.01);
             Logger.log("Reading new file");
             List<String> newFileLines = FileUtils.readLines(newFile);
+            controller.setProgress(FILE2PROGRESS + 0.02);
             Logger.log("Removing duplicates");
             newFileLines.removeAll(oldFileLines);
+            controller.setProgress(FILE2PROGRESS + 0.03);
             Logger.log("Writing into new File");
             FileUtils.writeLines(saveFile, newFileLines);
-            return "New file successfully shortened!";
+            controller.setProgress(1.00);
         } catch (IOException e) {
             e.printStackTrace();
-            return "Exception caught, please check logs.";
         }
     }
 
@@ -49,9 +62,11 @@ public class CSVHelper implements Helper {
             Logger.log("Improving content of file " + oldFile.getName());
             oldFileContent = improveContent(oldFileContent);
             FileUtils.write(oldFile, oldFileContent);
+            controller.setProgress(FILE1PROGRESS);
             Logger.log("Improving content of file " + newFile.getName());
             newFileContent = improveContent(newFileContent);
             FileUtils.write(newFile, newFileContent);
+            controller.setProgress(FILE2PROGRESS);
         } catch (IOException e) {
             e.printStackTrace();
         }

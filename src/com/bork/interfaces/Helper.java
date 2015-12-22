@@ -20,6 +20,6 @@ public interface Helper {
      * @param newFile the second input file which contains edited and new data only
      * @return a String containing information about the result
      */
-    String removeDuplicates(File oldFile, File newFile, File saveFile);
+    void removeDuplicates(File oldFile, File newFile, File saveFile);
 
 }
