@@ -82,13 +82,21 @@ public class CSVDiffController implements Controller {
      */
 
     public void importOldFile(ActionEvent actionEvent) {
-        oldInputFile = importFile();
-        importLbl1.setText("File name: " + oldInputFile.getName());
+        try {
+            oldInputFile = importFile();
+            importLbl1.setText("File name: " + oldInputFile.getName());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public void importNewFile(ActionEvent actionEvent) {
-        newInputFile = importFile();
-        importLbl2.setText("File name: " + newInputFile.getName());
+        try {
+            newInputFile = importFile();
+            importLbl2.setText("File name: " + newInputFile.getName());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public void runProcessFiles(ActionEvent actionEvent) {
