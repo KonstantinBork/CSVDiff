@@ -1,3 +1,5 @@
+import com.bork.exceptions.FileNotSupportedException;
+import com.bork.exceptions.NotSameTypeException;
 import com.bork.main.CSVDiffController;
 import org.junit.Test;
 
@@ -23,8 +25,13 @@ public class CSVDiffControllerUnitTest {
         File file1 = null;
         File file2 = null;
         CSVDiffController controller = new CSVDiffController();
-        String message = controller.processFiles(file1, file2, file2);
-        assertEquals("Please import files!", message);
+        try {
+            controller.processFiles(file1, file2, file2);
+        } catch (NotSameTypeException e) {
+            e.printStackTrace();
+        } catch (FileNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -33,9 +40,12 @@ public class CSVDiffControllerUnitTest {
             File file1 = null;
             File file2 = File.createTempFile("temp", ".tmp");
             CSVDiffController controller = new CSVDiffController();
-            String message = controller.processFiles(file1, file2, file2);
-            assertEquals("Please import files!", message);
+            controller.processFiles(file1, file2, file2);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FileNotSupportedException e) {
+            e.printStackTrace();
+        } catch (NotSameTypeException e) {
             e.printStackTrace();
         }
     }
@@ -46,9 +56,12 @@ public class CSVDiffControllerUnitTest {
             File file1 = File.createTempFile("temp1", ".tm");
             File file2 = File.createTempFile("temp2", ".tmp");
             CSVDiffController controller = new CSVDiffController();
-            String message = controller.processFiles(file1, file2, file2);
-            assertEquals("Please check your files, they are not of the same type!", message);
+            controller.processFiles(file1, file2, file2);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FileNotSupportedException e) {
+            e.printStackTrace();
+        } catch (NotSameTypeException e) {
             e.printStackTrace();
         }
     }
@@ -59,9 +72,12 @@ public class CSVDiffControllerUnitTest {
             File file1 = File.createTempFile("temp1", ".tmp");
             File file2 = File.createTempFile("temp2", ".tmp");
             CSVDiffController controller = new CSVDiffController();
-            String message = controller.processFiles(file1, file2, file2);
-            assertEquals("File type is not supported!", message);
+            controller.processFiles(file1, file2, file2);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FileNotSupportedException e) {
+            e.printStackTrace();
+        } catch (NotSameTypeException e) {
             e.printStackTrace();
         }
     }

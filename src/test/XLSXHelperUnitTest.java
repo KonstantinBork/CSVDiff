@@ -1,4 +1,5 @@
 import com.bork.interfaces.Helper;
+import com.bork.main.CSVDiffController;
 import com.bork.util.excel.XLSXHelper;
 import org.junit.Test;
 
@@ -20,12 +21,11 @@ public class XLSXHelperUnitTest {
 
     @Test
     public void removeDuplicates_validFiles_duplicatesAreRemoved() {
-        Helper helper = new XLSXHelper();
+        Helper helper = new XLSXHelper(new CSVDiffController());
         File file1 = new File("");
         File file2 = new File("");
         File file3 = new File("");
-        String message = helper.removeDuplicates(file1, file2, file3);
-        assertEquals("New file successfully shortened!", message);
+        helper.removeDuplicates(file1, file2, file3);
     }
 
 }
