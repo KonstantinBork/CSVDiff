@@ -19,16 +19,21 @@ import java.util.List;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- *
+ * <p>
  * §DESCRIPTION§
  */
 
 public class XLSHelper implements Helper {
 
+    private final double FILE1PROGRESS;
+    private final double FILE2PROGRESS;
+
     private Controller controller;
 
     public XLSHelper(Controller c) {
         controller = c;
+        FILE1PROGRESS = 0.49;
+        FILE2PROGRESS = 0.98;
     }
 
     @Override
@@ -40,10 +45,14 @@ public class XLSHelper implements Helper {
             HSSFSheet sheet2 = newWorkbook.getSheetAt(0);
             Logger.log("Getting content of sheet 1");
             List<List<String>> sheet1Contents = ExcelHelper.getSheetContents(oldWorkbook, sheet1);
+            controller.setProgress(FILE1PROGRESS);
             Logger.log("Getting content of sheet 2");
             List<List<String>> sheet2Contents = ExcelHelper.getSheetContents(newWorkbook, sheet2);
+            controller.setProgress(FILE2PROGRESS);
             sheet2Contents.removeAll(sheet1Contents);
+            controller.setProgress(0.99);
             writeToNewFile(saveFile, sheet2Contents);
+            controller.setProgress(1.00);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -25,7 +25,7 @@ import java.io.IOException;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- *
+ * <p>
  * §DESCRIPTION§
  */
 
@@ -62,21 +62,19 @@ public class CSVDiffController implements Controller {
                 fileHelper = new XLSXHelper(this);
                 break;
             default:
-                fileHelper = null;
                 throw new FileNotSupportedException();
         }
-        if (fileHelper != null) {
-            boolean saveFileExists = saveFile.exists();
-            if(!saveFileExists) {
-                try {
-                    saveFile.createNewFile();
-                } catch (IOException e) {
-                    Logger.log("Save file could not be created!");
-                    e.printStackTrace();
-                }
+        boolean saveFileExists = saveFile.exists();
+        if (!saveFileExists) {
+            try {
+                saveFile.createNewFile();
+            } catch (IOException e) {
+                Logger.log("Save file could not be created!");
+                e.printStackTrace();
             }
-            fileHelper.removeDuplicates(oldFile, newFile, saveFile);
         }
+        fileHelper.removeDuplicates(oldFile, newFile, saveFile);
+
     }
 
     @Override
@@ -99,13 +97,12 @@ public class CSVDiffController implements Controller {
      */
 
     /**
-     *
      * @param actionEvent
      */
     public void importOldFile(ActionEvent actionEvent) {
         try {
             oldInputFile = importFile();
-            file1Lbl.setText("File name: " + oldInputFile.getName());
+            file1Lbl.setText(oldInputFile.getName());
         } catch (NullPointerException e) {
             Logger.log("Old file is not selected!");
             e.printStackTrace();
@@ -113,13 +110,12 @@ public class CSVDiffController implements Controller {
     }
 
     /**
-     *
      * @param actionEvent
      */
     public void importNewFile(ActionEvent actionEvent) {
         try {
             newInputFile = importFile();
-            file2Lbl.setText("File name: " + newInputFile.getName());
+            file2Lbl.setText(newInputFile.getName());
         } catch (NullPointerException e) {
             Logger.log("New file is not selected!");
             e.printStackTrace();
@@ -127,7 +123,6 @@ public class CSVDiffController implements Controller {
     }
 
     /**
-     *
      * @param actionEvent
      */
     public void runProcessFiles(ActionEvent actionEvent) {
@@ -142,7 +137,7 @@ public class CSVDiffController implements Controller {
         }
         try {
             processFiles(oldInputFile, newInputFile, saveFile);
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             Logger.log("At least one input file is not selected!");
             e.printStackTrace();
         } catch (NotSameTypeException e) {

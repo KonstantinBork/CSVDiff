@@ -16,6 +16,7 @@ public interface Helper {
 
     /**
      * Removes duplicate information from newFile. It is assumed that both input files have the same file extension.
+     *
      * @param oldFile the first input file which is the base for the operation
      * @param newFile the second input file which contains edited and new data only
      * @return a String containing information about the result

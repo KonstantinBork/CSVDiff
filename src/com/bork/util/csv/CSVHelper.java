@@ -18,7 +18,7 @@ import java.util.List;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- *
+ * <p>
  * §DESCRIPTION§
  */
 
@@ -60,11 +60,11 @@ public class CSVHelper implements Helper {
             String oldFileContent = new String(Files.readAllBytes(oldFile.toPath()));
             String newFileContent = new String(Files.readAllBytes(newFile.toPath()));
             Logger.log("Improving content of file " + oldFile.getName());
-            oldFileContent = improveContent(oldFileContent);
+            oldFileContent = improveContent(oldFileContent, 0);
             FileUtils.write(oldFile, oldFileContent);
             controller.setProgress(FILE1PROGRESS);
             Logger.log("Improving content of file " + newFile.getName());
-            newFileContent = improveContent(newFileContent);
+            newFileContent = improveContent(newFileContent, 1);
             FileUtils.write(newFile, newFileContent);
             controller.setProgress(FILE2PROGRESS);
         } catch (IOException e) {
@@ -72,19 +72,27 @@ public class CSVHelper implements Helper {
         }
     }
 
-    private String improveContent(String content) {
+    private String improveContent(String content, int processedFiles) {
         String result = "";
         BufferedReader reader = new BufferedReader(new StringReader(content));
         try {
+            int numberOfLines = countLines(content);
+            int count = 0;
             Logger.log("Started improving content");
             long startTime = System.currentTimeMillis();
             String singleLine = reader.readLine();
+            double progress = calcProgress(++count, numberOfLines, processedFiles);
+            controller.setProgress(progress);
             int numberOfAttributes = singleLine.split(";").length;
             result += singleLine;
-            while((singleLine = reader.readLine()) != null) {
+            while ((singleLine = reader.readLine()) != null) {
+                progress = calcProgress(++count, numberOfLines, processedFiles);
+                controller.setProgress(progress);
                 int i = singleLine.split(";").length;
-                while(i < numberOfAttributes - 1) {
+                while (i < numberOfAttributes - 1) {
                     singleLine += reader.readLine();
+                    progress = calcProgress(++count, numberOfLines, processedFiles);
+                    controller.setProgress(progress);
                     i = singleLine.split(";").length;
                 }
                 result += singleLine + "\n";
@@ -96,6 +104,14 @@ public class CSVHelper implements Helper {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private int countLines(String input) {
+        return input.split("\n").length;
+    }
+
+    private double calcProgress(int readLines, int allLines, int processedFiles) {
+        return (readLines / allLines) + (processedFiles * FILE1PROGRESS);
     }
 
 }
