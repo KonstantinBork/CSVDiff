@@ -1,0 +1,22 @@
+.root {
+    -fx-font-family: sans-serif;
+}
+
+.label {
+    -fx-font-size: 10pt;
+}
+
+#importLbl1, #importLbl2 {
+    -fx-font-style: oblique;
+}
+
+.button {
+    -fx-border-color: black;
+    -fx-font-size: 10pt;
+    -fx-font-style: oblique;
+}
+
+#runBtn {
+    -fx-background-color: #33ff00;
+    -fx-fill: lightslategrey;
+}

@@ -25,8 +25,8 @@ import java.io.IOException;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/14/2015
- * <p>
- * §DESCRIPTION§
+ *
+ * Controller of the application.
  */
 
 public class CSVDiffController implements Controller {
@@ -45,8 +45,14 @@ public class CSVDiffController implements Controller {
     public void processFiles(File oldFile, File newFile, File saveFile) throws NullPointerException, NotSameTypeException, FileNotSupportedException {
         Logger.log("Checking input files");
         if (checkIfOneFileIsNull(oldFile, newFile)) {
+            String errorHeader = "Not all files selected!";
+            String errorText = "At least one file is not selected. Please check both input files!";
+            Logger.showErrorDialog(errorHeader, errorText);
             throw new NullPointerException();
         } else if (!filesHaveSameType(oldFile, newFile)) {
+            String errorHeader = "Files have different types!";
+            String errorText = "Your input files don't have the same type. Please check both input files!";
+            Logger.showErrorDialog(errorHeader, errorText);
             throw new NotSameTypeException();
         }
         String fileType = FilenameUtils.getExtension(newFile.getName());
@@ -62,6 +68,9 @@ public class CSVDiffController implements Controller {
                 fileHelper = new XLSXHelper(this);
                 break;
             default:
+                String errorHeader = "File type is not supported!";
+                String errorText = "The type of your input files is not supported! Your files must be .csv, .xls or .xlsx!";
+                Logger.showErrorDialog(errorHeader, errorText);
                 throw new FileNotSupportedException();
         }
         boolean saveFileExists = saveFile.exists();
@@ -74,7 +83,6 @@ public class CSVDiffController implements Controller {
             }
         }
         fileHelper.removeDuplicates(oldFile, newFile, saveFile);
-
     }
 
     @Override

@@ -20,7 +20,7 @@ public class CSVDiff extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final String viewLocation = "../view/csvdiff.fxml";
+        final String viewLocation = "view/csvdiff.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(viewLocation));
         Scene scene = new Scene(root);
 

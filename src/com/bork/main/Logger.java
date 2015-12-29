@@ -1,5 +1,7 @@
 package com.bork.main;
 
+import javafx.scene.control.Alert;
+
 /**
  * CSVDiff
  *
@@ -7,7 +9,7 @@ package com.bork.main;
  * @version 0.1
  * @created 12/13/2015
  * <p>
- * §DESCRIPTION§
+ * Static class to provide simple logging to standard output. Furthermore it provides an error dialog for the frontend.
  */
 
 public class Logger {
@@ -46,6 +48,14 @@ public class Logger {
 
     public static void log(boolean msg) {
         log(String.valueOf(msg));
+    }
+
+    public static void showErrorDialog(String header, String errorText) {
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setTitle("Error");
+        errorAlert.setHeaderText(header);
+        errorAlert.setContentText(errorText);
+        errorAlert.showAndWait();
     }
 
 }
