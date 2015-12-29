@@ -1,5 +1,8 @@
 package com.bork.interfaces;
 
+import com.bork.exceptions.FileNotSupportedException;
+import com.bork.exceptions.NotSameTypeException;
+
 import java.io.File;
 
 /**
@@ -8,7 +11,7 @@ import java.io.File;
  * @author Konstantin Bork
  * @version 0.1
  * @created 12/08/2015
- * <p/>
+ * <p>
  * §DESCRIPTION§
  */
 
@@ -16,11 +19,20 @@ public interface Controller {
 
     /**
      * Improves the content of both files, removes duplicates between both files and saves the result into {@param saveFile}.
-     * @param oldFile The older file containing data.
-     * @param newFile The newer file containing data.
-     * @param saveFile The file to save the result in.
-     * @return
+     *
+     * @param oldFile
+     * @param newFile
+     * @param saveFile
+     * @throws NullPointerException
+     * @throws NotSameTypeException
      */
-    String processFiles(File oldFile, File newFile, File saveFile);
+    void processFiles(File oldFile, File newFile, File saveFile) throws NullPointerException, NotSameTypeException, FileNotSupportedException;
+
+    /**
+     * Sets the current progress to {@param value}.
+     *
+     * @param value
+     */
+    void setProgress(double value);
 
 }

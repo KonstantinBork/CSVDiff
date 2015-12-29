@@ -40,7 +40,7 @@ public class ExcelHelper {
     private static String getCellValue(Workbook wb, Cell cell) {
         FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
         CellValue cellValue = evaluator.evaluate(cell);
-        if(cellValue == null) {
+        if (cellValue == null) {
             return cell.getStringCellValue();
         }
         switch (cellValue.getCellType()) {
@@ -54,12 +54,12 @@ public class ExcelHelper {
     }
 
     public static boolean writeFile(Iterator<List<String>> listIterator, Sheet sheet, int i, File file, Workbook wb) {
-        while(listIterator.hasNext()) {
+        while (listIterator.hasNext()) {
             List<String> currentRow = listIterator.next();
             Row row = sheet.createRow(i++);
             Iterator<String> stringIterator = currentRow.iterator();
             int j = 0;
-            while(stringIterator.hasNext()) {
+            while (stringIterator.hasNext()) {
                 Cell cell = row.createCell(j++);
                 cell.setCellValue(stringIterator.next());
             }

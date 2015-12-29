@@ -20,7 +20,7 @@ public class CSVDiff extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final String viewLocation = "../view/csvdiff.fxml";
+        final String viewLocation = "view/csvdiff.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(viewLocation));
         Scene scene = new Scene(root);
 
@@ -30,6 +30,10 @@ public class CSVDiff extends Application {
     }
 
     public static void main(String[] args) {
+        final String WELCOME_MESSAGE =
+                "Welcome to CSVDiff!\n" +
+                "Import two files and remove duplicated data.";
+        Logger.log(WELCOME_MESSAGE);
         launch(args);
     }
 
