@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="604.0" stylesheets="@csvdiff.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bork.main.CSVDiffController">
+    <children>
+        <Button fx:id="importBtn1" layoutX="48.0" layoutY="66.0" mnemonicParsing="false" onAction="#importOldFile" prefHeight="50.0" prefWidth="345.0" text="Import old file" />
+        <Button fx:id="importBtn2" layoutX="48.0" layoutY="155.0" mnemonicParsing="false" onAction="#importNewFile" prefHeight="50.0" prefWidth="345.0" text="Import new file" />
+        <Button fx:id="runBtn" layoutX="48.0" layoutY="245.0" mnemonicParsing="false" onAction="#runProcessFiles" prefHeight="50.0" prefWidth="345.0" text="Run" />
+        <Label fx:id="importLbl1" layoutX="48.0" layoutY="41.0" text="File name: "/>
+        <Label fx:id="importLbl2" layoutX="48.0" layoutY="127.0" text="File name: "/>
+      <Label fx:id="file1Lbl" layoutX="118.0" layoutY="41.0" prefHeight="17.0" prefWidth="394.0" />
+      <Label fx:id="file2Lbl" layoutX="118.0" layoutY="127.0" prefHeight="17.0" prefWidth="394.0" />
+      <Label fx:id="message" layoutX="48.0" layoutY="308.0" text="Processing can take some time.&#10;Please don't close this window until progress is completed." />
+      <ProgressBar fx:id="progressBar" layoutX="48.0" layoutY="214.0" prefHeight="20.0" prefWidth="345.0" progress="0.0" />
+    </children>
+</Pane>
