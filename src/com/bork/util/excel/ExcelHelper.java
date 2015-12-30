@@ -1,5 +1,6 @@
 package com.bork.util.excel;
 
+import com.bork.main.Logger;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
@@ -45,6 +46,10 @@ public class ExcelHelper {
         }
         switch (cellValue.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
+                if(DateUtil.isCellDateFormatted(cell)) {
+                    DataFormatter formatter = new DataFormatter();
+                    return formatter.formatCellValue(cell, evaluator);
+                }
                 return String.valueOf(cell.getNumericCellValue());
             case Cell.CELL_TYPE_BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
