@@ -22,9 +22,15 @@ public class XLSXHelperUnitTest {
     @Test
     public void removeDuplicates_validFiles_duplicatesAreRemoved() {
         Helper helper = new XLSXHelper(new CSVDiffController());
-        File file1 = new File("");
-        File file2 = new File("");
-        File file3 = new File("");
+        String path = "/Users/konstantin/Documents/IDEA Projects/CSVDiff/files/";
+        File file1 = new File(path + "2015.xlsx");
+        File file2 = new File(path + "2016.xlsx");
+        File file3 = new File(path + "test.xlsx");
+        helper.removeDuplicates(file1, file2, file3);
+        path += "numeric/";
+        file1 = new File(path + "test1.xlsx");
+        file2 = new File(path + "test2.xlsx");
+        file3 = new File(path + "test.xlsx");
         helper.removeDuplicates(file1, file2, file3);
     }
 
