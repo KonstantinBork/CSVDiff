@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="CSVDiff" default="default" basedir="."
+         xmlns:fx="javafx:com.sun.javafx.tools.ant">
+
+    <property name="JAVA_HOME" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_66.jdk/Contents/Home"/>
+    <property name="LIBRARY" value=""/>
+    <property name="build.src.dir" value="src"/>
+    <property name="build.classes.dir" value="classes"/>
+    <property name="build.dist.dir" value="dist"/>
+
+    <path id="CLASSPATH">
+        <pathelement location="${LIBRARY}/poi-3.13/poi-3.13-20150929.jar"/>
+        <pathelement location="${LIBRARY}/poi-3.13/poi-ooxml-3.13-20150929.jar"/>
+        <pathelement location="${LIBRARY}/commons-io-2.4/commons-io-2.4.jar"/>
+        <pathelement path="classes"/>
+    </path>
+
+    <target name="default" depends="clean,compile">
+
+        <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+                 uri="javafx:com.sun.javafx.tools.ant"
+                 classpath="${JAVA_HOME}/lib/ant-javafx.jar"/>
+
+        <fx:application id="CSVDiff"
+                        name="CSVDiff"
+                        mainClass="com.bork.main.CSVDiff"/>
+
+        <fx:resources id="appRes">
+            <fx:fileset dir="${build.dist.dir}" includes="CSVDiff.jar"/>
+        </fx:resources>
+
+        <fx:jar destfile="${build.dist.dir}/CSVDiff.jar">
+            <fx:application refid="CSVDiff"/>
+            <fx:resources refid="appRes"/>
+            <fileset dir="${build.classes.dir}"/>
+        </fx:jar>
+
+        <fx:deploy width="300" height="250"
+                   outdir="." embedJNLP="true"
+                   outfile="helloworld">
+
+            <fx:application refId="CSVDiff"/>
+
+            <fx:resources refid="appRes"/>
+
+            <fx:info title="CSVDiff"
+                     vendor="Konstantin Bork"/>
+
+        </fx:deploy>
+
+    </target>
+
+    <target name="clean">
+        <mkdir dir="${build.classes.dir}"/>
+        <mkdir dir="${build.dist.dir}"/>
+
+        <delete>
+            <fileset dir="${build.classes.dir}" includes="**/*"/>
+            <fileset dir="${build.dist.dir}" includes="**/*"/>
+        </delete>
+
+    </target>
+
+    <target name="compile" depends="clean">
+
+        <javac includeantruntime="false"
+               srcdir="${build.src.dir}"
+               destdir="${build.classes.dir}"
+               fork="yes"
+               executable="${JAVA_HOME}/bin/javac"
+               source="1.8"
+               debug="off">
+        </javac>
+    </target>
+
+</project>
