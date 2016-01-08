@@ -6,9 +6,7 @@ import org.apache.poi.ss.usermodel.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * CSVDiff
@@ -22,8 +20,8 @@ import java.util.List;
 
 public class ExcelHelper {
 
-    public static List<List<String>> getSheetContents(Workbook wb, Sheet sheet) {
-        List<List<String>> sheetContents = new ArrayList<>();
+    public static Set<List<String>> getSheetContents(Workbook wb, Sheet sheet) {
+        Set<List<String>> sheetContents = new HashSet<>();
         Iterator<Row> rowIterator = sheet.rowIterator();
         while (rowIterator.hasNext()) {
             List<String> rowContent = new ArrayList<>();
