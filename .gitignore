@@ -16,5 +16,7 @@ hs_err_pid*
 *.iml
 /.idea
 /out
+/build
 /files
 META-INF
+__*

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="csvdiff" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="off"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.apk"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8_u66" value="${jdk.home}/bin"/>
+  <path id="jdk.classpath.1.8_u66">
+    <fileset dir="${jdk.home}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="lib/ant-javafx.jar"/>
+      <include name="lib/dt.jar"/>
+      <include name="lib/javafx-mx.jar"/>
+      <include name="lib/jconsole.jar"/>
+      <include name="lib/packager.jar"/>
+      <include name="lib/sa-jdi.jar"/>
+      <include name="lib/tools.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8_u66}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8_u66"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.commons-io-2.4.classpath">
+    <pathelement location="${basedir}/../../../Plugins/commons-io-2.4/commons-io-2.4.jar"/>
+  </path>
+  
+  <path id="library.poi-3.13-20150929.classpath">
+    <pathelement location="${basedir}/../../../Plugins/poi-3.13/ooxml-lib/xmlbeans-2.6.0.jar"/>
+    <pathelement location="${basedir}/../../../Plugins/poi-3.13/poi-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/../../../Plugins/poi-3.13/poi-excelant-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/../../../Plugins/poi-3.13/poi-ooxml-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/../../../Plugins/poi-3.13/poi-ooxml-schemas-3.13-20150929.jar"/>
+    <pathelement location="${basedir}/../../../Plugins/poi-3.13/poi-scratchpad-3.13-20150929.jar"/>
+  </path>
+  
+  
+  <!-- Global Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module CSVDiff -->
+  
+  <dirname property="module.csvdiff.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.csvdiff" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.csvdiff" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.csvdiff" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.csvdiff" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="csvdiff.output.dir" value="${module.csvdiff.basedir}/out/production/CSVDiff"/>
+  <property name="csvdiff.testoutput.dir" value="${module.csvdiff.basedir}/out/test/CSVDiff"/>
+  
+  <path id="csvdiff.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="csvdiff.module.production.classpath">
+    <path refid="${module.jdk.classpath.csvdiff}"/>
+    <path refid="library.commons-io-2.4.classpath"/>
+    <path refid="library.poi-3.13-20150929.classpath"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
+  </path>
+  
+  <path id="csvdiff.runtime.production.module.classpath">
+    <pathelement location="${csvdiff.output.dir}"/>
+    <path refid="library.commons-io-2.4.classpath"/>
+    <path refid="library.poi-3.13-20150929.classpath"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
+  </path>
+  
+  <path id="csvdiff.module.classpath">
+    <path refid="${module.jdk.classpath.csvdiff}"/>
+    <pathelement location="${csvdiff.output.dir}"/>
+    <path refid="library.commons-io-2.4.classpath"/>
+    <path refid="library.poi-3.13-20150929.classpath"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
+  </path>
+  
+  <path id="csvdiff.runtime.module.classpath">
+    <pathelement location="${csvdiff.testoutput.dir}"/>
+    <pathelement location="${csvdiff.output.dir}"/>
+    <path refid="library.commons-io-2.4.classpath"/>
+    <path refid="library.poi-3.13-20150929.classpath"/>
+    <pathelement location="${idea.home}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${idea.home}/lib/junit-4.12.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.csvdiff">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.csvdiff">
+    <patternset refid="excluded.from.module.csvdiff"/>
+  </patternset>
+  
+  <path id="csvdiff.module.sourcepath">
+    <dirset dir="${module.csvdiff.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.csvdiff" depends="compile.module.csvdiff.production,compile.module.csvdiff.tests" description="Compile module CSVDiff"/>
+  
+  <target name="compile.module.csvdiff.production" description="Compile module CSVDiff; production classes">
+    <mkdir dir="${csvdiff.output.dir}"/>
+    <javac destdir="${csvdiff.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.csvdiff}/javac">
+      <compilerarg line="${compiler.args.csvdiff}"/>
+      <bootclasspath refid="csvdiff.module.bootclasspath"/>
+      <classpath refid="csvdiff.module.production.classpath"/>
+      <src refid="csvdiff.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.csvdiff"/>
+    </javac>
+    
+    <copy todir="${csvdiff.output.dir}">
+      <fileset dir="${module.csvdiff.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.csvdiff.tests" depends="compile.module.csvdiff.production" description="compile module CSVDiff; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.csvdiff" description="cleanup module">
+    <delete dir="${csvdiff.output.dir}"/>
+    <delete dir="${csvdiff.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.csvdiff, clean.artifact.csvdiff" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.csvdiff" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.csvdiff" value="${basedir}/out/artifacts/CSVDiff"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="artifact.temp.output.CSVDiff" value="${artifacts.temp.dir}/CSVDiff.jar"/>
+    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath="${jdk.home}/lib/ant-javafx.jar"/>
+  </target>
+  
+  <target name="clean.artifact.csvdiff" description="clean CSVDiff artifact output">
+    <delete dir="${artifact.output.csvdiff}"/>
+  </target>
+  
+  <target name="artifact.csvdiff" depends="init.artifacts, compile.module.csvdiff" description="Build &#39;CSVDiff&#39; artifact" xmlns:fx="javafx:com.sun.javafx.tools.ant">
+    <mkdir dir="${artifact.output.csvdiff}"/>
+    <copy todir="${artifact.temp.output.CSVDiff}">
+      <fileset dir="${csvdiff.output.dir}"/>
+    </copy>
+    <unzip src="${basedir}/../../../Plugins/poi-3.13/poi-ooxml-3.13-20150929.jar" dest="${artifact.temp.output.CSVDiff}"/>
+    <unzip src="${basedir}/../../../Plugins/poi-3.13/poi-3.13-20150929.jar" dest="${artifact.temp.output.CSVDiff}"/>
+    <unzip src="${basedir}/../../../Plugins/commons-io-2.4/commons-io-2.4.jar" dest="${artifact.temp.output.CSVDiff}"/>
+    <unzip src="${basedir}/../../../Plugins/poi-3.13/poi-ooxml-schemas-3.13-20150929.jar" dest="${artifact.temp.output.CSVDiff}"/>
+    <unzip src="${basedir}/../../../Plugins/poi-3.13/ooxml-lib/xmlbeans-2.6.0.jar" dest="${artifact.temp.output.CSVDiff}"/>
+    <fx:fileset id="all_but_CSVDiff" dir="${artifact.temp.output.CSVDiff}" includes="**/*.jar">
+      <exclude name="CSVDiff.jar"/>
+    </fx:fileset>
+    <fx:fileset id="all_CSVDiff" dir="${artifact.temp.output.CSVDiff}" includes="**/*.jar"/>
+    <fx:application id="CSVDiff_id" name="CSVDiff" mainClass="com.bork.main.CSVDiff"/>
+    <fx:jar destfile="${artifact.temp.output.CSVDiff}/CSVDiff.jar">
+      <fx:application refid="CSVDiff_id"/>
+      <fileset dir="${artifact.temp.output.CSVDiff}" excludes="**/*.jar"/>
+      <fx:resources>
+        <fx:fileset refid="all_but_CSVDiff"/>
+      </fx:resources>
+      <manifest/>
+    </fx:jar>
+    <fx:deploy width="600" height="400" updatemode="background" outdir="${artifact.temp.output.CSVDiff}/deploy" outfile="CSVDiff" nativeBundles="all">
+      <fx:application refid="CSVDiff_id"/>
+      <fx:info title="CSVDiff" vendor="Konstantin Bork"/>
+      <fx:resources>
+        <fx:fileset refid="all_CSVDiff"/>
+      </fx:resources>
+    </fx:deploy>
+    <copy todir="${artifact.output.csvdiff}">
+      <fileset dir="${artifact.temp.output.CSVDiff}/deploy"/>
+    </copy>
+    <delete includeemptydirs="true">
+      <fileset dir="${artifact.temp.output.CSVDiff}"/>
+    </delete>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.csvdiff" description="Build all artifacts">
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
