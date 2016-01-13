@@ -57,9 +57,9 @@
   
   <!-- JDK definitions -->
   
-  <property name="jdk.bin.1.8_u66" value="${jdk.home.1.8_u66}/bin"/>
+  <property name="jdk.bin.1.8_u66" value="${jdk.home}/bin"/>
   <path id="jdk.classpath.1.8_u66">
-    <fileset dir="${jdk.home.1.8_u66}">
+    <fileset dir="${jdk.home}">
       <include name="jre/lib/charsets.jar"/>
       <include name="jre/lib/deploy.jar"/>
       <include name="jre/lib/ext/cldrdata.jar"/>
@@ -91,7 +91,7 @@
     </fileset>
   </path>
   
-  <property name="project.jdk.home" value="${jdk.home.1.8_u66}"/>
+  <property name="project.jdk.home" value="${jdk.home}"/>
   <property name="project.jdk.bin" value="${jdk.bin.1.8_u66}"/>
   <property name="project.jdk.classpath" value="jdk.classpath.1.8_u66"/>
   
@@ -247,7 +247,7 @@
     <property name="artifact.output.csvdiff" value="${basedir}/out/artifacts/CSVDiff"/>
     <mkdir dir="${artifacts.temp.dir}"/>
     <property name="artifact.temp.output.CSVDiff" value="${artifacts.temp.dir}/CSVDiff.jar"/>
-    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${jdk.home.1.8_u66}/lib/ant-javafx.jar"/>
+    <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${jdk.home}/lib/ant-javafx.jar"/>
   </target>
   
   <target name="clean.artifact.csvdiff" description="clean CSVDiff artifact output">
