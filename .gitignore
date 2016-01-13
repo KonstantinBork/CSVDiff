@@ -18,7 +18,11 @@ hs_err_pid*
 /out
 /package
 /files
+/.gradle
+/gradle
 META-INF
 __*
 
 build.properties
+gradlew
+gradlew.bat
