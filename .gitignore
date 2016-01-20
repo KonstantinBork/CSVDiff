@@ -14,6 +14,7 @@
 hs_err_pid*
 
 *.iml
+/.gradle
 /.idea
 /out
 /package
@@ -22,3 +23,5 @@ META-INF
 __*
 
 build.properties
+gradlew
+gradlew.bat
