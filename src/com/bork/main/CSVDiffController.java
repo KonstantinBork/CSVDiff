@@ -82,7 +82,8 @@ public class CSVDiffController implements Controller {
                 e.printStackTrace();
             }
         }
-        fileHelper.removeDuplicates(oldFile, newFile, saveFile);
+        Runnable removeTask = () -> fileHelper.removeDuplicates(oldFile, newFile, saveFile);
+        new Thread(removeTask).start();
     }
 
     @Override
