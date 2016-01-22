@@ -1,11 +1,11 @@
 package com.bork.util.excel;
 
-import com.bork.main.Logger;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -20,7 +20,7 @@ import java.util.*;
 
 public class ExcelHelper {
 
-    public static Set<List<String>> getSheetContents(Workbook wb, Sheet sheet) {
+    public static Set<List<String>> getSheetContents(Workbook wb, Sheet sheet, Locale locale) {
         Set<List<String>> sheetContents = new HashSet<>();
         Iterator<Row> rowIterator = sheet.rowIterator();
         while (rowIterator.hasNext()) {
@@ -29,14 +29,14 @@ public class ExcelHelper {
             Iterator<Cell> cellIterator = currentRow.cellIterator();
             while (cellIterator.hasNext()) {
                 Cell currentCell = cellIterator.next();
-                rowContent.add(getCellValue(wb, currentCell));
+                rowContent.add(getCellValue(wb, currentCell, locale));
             }
             sheetContents.add(rowContent);
         }
         return sheetContents;
     }
 
-    private static String getCellValue(Workbook wb, Cell cell) {
+    private static String getCellValue(Workbook wb, Cell cell, Locale locale) {
         FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
         CellValue cellValue = evaluator.evaluate(cell);
         if (cellValue == null) {
@@ -76,6 +76,16 @@ public class ExcelHelper {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private static String parseDate(Date date, Locale locale) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        if(locale == Locale.FRANCE) {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        } else if(locale == Locale.US) {
+            dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        }
+        return dateFormat.format(date);
     }
 
 }
