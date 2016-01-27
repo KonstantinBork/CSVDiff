@@ -19,6 +19,8 @@ hs_err_pid*
 /out
 /package
 /files
+/build
+/gradle
 META-INF
 __*
 
