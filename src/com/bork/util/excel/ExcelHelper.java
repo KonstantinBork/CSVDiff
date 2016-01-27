@@ -1,6 +1,8 @@
 package com.bork.util.excel;
 
+import com.bork.util.Constants;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.DateFormatConverter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,6 +22,20 @@ import java.util.*;
 
 public class ExcelHelper {
 
+    private static final Map<Locale, String> LOCALES;
+    static {
+        Map<Locale, String> temp = new HashMap<>();
+        temp.put(Locale.GERMAN, "dd.MM.yy");
+        temp.put(Locale.FRENCH, "yyyy-MM-dd");
+        temp.put(Locale.US, "yyyy/MM/dd");
+        LOCALES = Collections.unmodifiableMap(temp);
+    }
+    private static final String FORMATTEDDATE = "\\d{1,2}/\\d{1,2}/\\d{2,4}";
+    private static final String YYYYMMDD = "\\d{4}/\\d{2}/\\d{2}";
+    private static final String HHMM = "(([01]?[0-9])|(2[0-3])):\\d{2}";
+    private static final String HHMMSS = HHMM + ":\\d{2}";
+    private static final String NUMBER = "\\d+\\.?\\d*";
+
     public static Set<List<String>> getSheetContents(Workbook wb, Sheet sheet, Locale locale) {
         Set<List<String>> sheetContents = new HashSet<>();
         Iterator<Row> rowIterator = sheet.rowIterator();
@@ -29,7 +45,8 @@ public class ExcelHelper {
             Iterator<Cell> cellIterator = currentRow.cellIterator();
             while (cellIterator.hasNext()) {
                 Cell currentCell = cellIterator.next();
-                rowContent.add(getCellValue(wb, currentCell, locale));
+                String content = getCellValue(wb, currentCell, locale);
+                rowContent.add(content);
             }
             sheetContents.add(rowContent);
         }
@@ -45,8 +62,12 @@ public class ExcelHelper {
         switch (cellValue.getCellType()) {
             case Cell.CELL_TYPE_NUMERIC:
                 if(DateUtil.isCellDateFormatted(cell)) {
-                    DataFormatter formatter = new DataFormatter();
-                    return formatter.formatCellValue(cell, evaluator);
+                    DataFormatter formatter = new DataFormatter(locale);
+                    String formattedDate = formatter.formatCellValue(cell, evaluator);
+                    if(formattedDate.matches(FORMATTEDDATE)) {
+                        return new SimpleDateFormat("yyyy/MM/dd").format(cell.getDateCellValue());
+                    }
+                    return formattedDate;
                 }
                 return String.valueOf(cell.getNumericCellValue());
             case Cell.CELL_TYPE_BOOLEAN:
@@ -64,7 +85,7 @@ public class ExcelHelper {
             int j = 0;
             while (stringIterator.hasNext()) {
                 Cell cell = row.createCell(j++);
-                cell.setCellValue(stringIterator.next());
+                writeToCell(cell, stringIterator.next(), wb);
             }
         }
         try {
@@ -78,14 +99,31 @@ public class ExcelHelper {
         }
     }
 
-    private static String parseDate(Date date, Locale locale) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        if(locale == Locale.FRANCE) {
-            dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        } else if(locale == Locale.US) {
-            dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private static void writeToCell(Cell cell, String stringValue, Workbook wb) {
+        if(stringValue.matches(YYYYMMDD)) {
+            String pattern = DateFormatConverter.convert(Constants.LOCALE, LOCALES.get(Constants.LOCALE));
+            CellStyle style = wb.createCellStyle();
+            DataFormat format = wb.createDataFormat();
+            style.setDataFormat(format.getFormat(pattern));
+            cell.setCellValue(DateUtil.parseYYYYMMDDDate(stringValue));
+            cell.setCellStyle(style);
+        } else if(stringValue.matches(HHMM) || stringValue.matches(HHMMSS)) {
+            String pattern;
+            if(stringValue.matches(HHMM)) {
+                pattern = DateFormatConverter.convert(Constants.LOCALE, "HH:mm");
+            } else {
+                pattern = DateFormatConverter.convert(Constants.LOCALE, "HH:mm:ss");
+            }
+            CellStyle style = wb.createCellStyle();
+            DataFormat format = wb.createDataFormat();
+            style.setDataFormat(format.getFormat(pattern));
+            cell.setCellValue(DateUtil.convertTime(stringValue));
+            cell.setCellStyle(style);
+        } else if(stringValue.matches(NUMBER)) {
+            cell.setCellValue(Double.parseDouble(stringValue));
+        } else {
+            cell.setCellValue(stringValue);
         }
-        return dateFormat.format(date);
     }
 
 }
