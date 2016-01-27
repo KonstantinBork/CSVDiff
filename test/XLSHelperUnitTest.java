@@ -4,6 +4,7 @@ import com.bork.util.excel.XLSHelper;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,7 +26,7 @@ public class XLSHelperUnitTest {
         File file1 = new File("");
         File file2 = new File("");
         File file3 = new File("");
-        helper.removeDuplicates(file1, file2, file3);
+        helper.removeDuplicates(file1, file2, file3, Locale.GERMANY);
     }
 
 }

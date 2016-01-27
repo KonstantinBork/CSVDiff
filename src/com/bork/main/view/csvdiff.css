@@ -6,7 +6,7 @@
     -fx-font-size: 10pt;
 }
 
-#importLbl1, #importLbl2 {
+#importLbl1, #importLbl2, #langLbl {
     -fx-font-style: oblique;
 }
 

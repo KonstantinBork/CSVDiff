@@ -7,10 +7,10 @@ import com.bork.interfaces.Helper;
 import com.bork.util.csv.CSVHelper;
 import com.bork.util.excel.XLSHelper;
 import com.bork.util.excel.XLSXHelper;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -18,6 +18,8 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * CSVDiff
@@ -37,12 +39,14 @@ public class CSVDiffController implements Controller {
     private Label file2Lbl;
     @FXML
     private ProgressBar progressBar;
+    @FXML
+    private ChoiceBox langChoice;
 
     private File oldInputFile;
     private File newInputFile;
 
     @Override
-    public void processFiles(File oldFile, File newFile, File saveFile) throws NullPointerException, NotSameTypeException, FileNotSupportedException {
+    public void processFiles(File oldFile, File newFile, File saveFile, Locale locale) throws NullPointerException, NotSameTypeException, FileNotSupportedException {
         Logger.log("Checking input files");
         if (checkIfOneFileIsNull(oldFile, newFile)) {
             String errorHeader = "Not all files selected!";
@@ -82,7 +86,8 @@ public class CSVDiffController implements Controller {
                 e.printStackTrace();
             }
         }
-        fileHelper.removeDuplicates(oldFile, newFile, saveFile);
+        Runnable removeTask = () -> fileHelper.removeDuplicates(oldFile, newFile, saveFile, locale);
+        new Thread(removeTask).start();
     }
 
     @Override
@@ -135,16 +140,18 @@ public class CSVDiffController implements Controller {
      */
     public void runProcessFiles(ActionEvent actionEvent) {
         File saveFile = null;
+        Locale locale = null;
         try {
             String fileExtension = FilenameUtils.getExtension(oldInputFile.getName());
             Logger.log("File extension is " + fileExtension + ".");
             saveFile = saveFile("*." + fileExtension);
+            locale = getLocale();
         } catch (NullPointerException e) {
             Logger.log("Save file is not selected!");
             e.printStackTrace();
         }
         try {
-            processFiles(oldInputFile, newInputFile, saveFile);
+            processFiles(oldInputFile, newInputFile, saveFile, locale);
         } catch (NullPointerException e) {
             Logger.log("At least one input file is not selected!");
             e.printStackTrace();
@@ -175,6 +182,20 @@ public class CSVDiffController implements Controller {
                 new ExtensionFilter("All Files", "*.*")
         );
         return chooser.showSaveDialog(new Stage());
+    }
+
+    private Locale getLocale() {
+        String language = (String) langChoice.getSelectionModel().getSelectedItem();
+        switch (language) {
+            case "German":
+                return Locale.GERMANY;
+            case "French":
+                return Locale.FRANCE;
+            case "English":
+                return Locale.US;
+            default:
+                return Locale.GERMANY;
+        }
     }
 
 }

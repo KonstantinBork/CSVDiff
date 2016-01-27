@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -38,17 +39,17 @@ public class XLSXHelper implements Helper {
     }
 
     @Override
-    public void removeDuplicates(File oldFile, File newFile, File saveFile) {
+    public void removeDuplicates(File oldFile, File newFile, File saveFile, Locale locale) {
         try {
             XSSFWorkbook oldWorkbook = new XSSFWorkbook(new FileInputStream(oldFile));
             XSSFWorkbook newWorkbook = new XSSFWorkbook(new FileInputStream(newFile));
             XSSFSheet sheet1 = oldWorkbook.getSheetAt(0);
             XSSFSheet sheet2 = newWorkbook.getSheetAt(0);
             Logger.log("Getting content of sheet 1");
-            Set<List<String>> sheet1Contents = ExcelHelper.getSheetContents(oldWorkbook, sheet1);
+            Set<List<String>> sheet1Contents = ExcelHelper.getSheetContents(oldWorkbook, sheet1, locale);
             controller.setProgress(FILE1PROGRESS);
             Logger.log("Getting content of sheet 2");
-            Set<List<String>> sheet2Contents = ExcelHelper.getSheetContents(newWorkbook, sheet2);
+            Set<List<String>> sheet2Contents = ExcelHelper.getSheetContents(newWorkbook, sheet2, locale);
             controller.setProgress(FILE2PROGRESS);
             sheet2Contents.removeAll(sheet1Contents);
             controller.setProgress(0.99);

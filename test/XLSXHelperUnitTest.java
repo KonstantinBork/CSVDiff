@@ -4,6 +4,7 @@ import com.bork.util.excel.XLSXHelper;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,12 +27,12 @@ public class XLSXHelperUnitTest {
         File file1 = new File(path + "2015.xlsx");
         File file2 = new File(path + "2016.xlsx");
         File file3 = new File(path + "test.xlsx");
-        helper.removeDuplicates(file1, file2, file3);
+        helper.removeDuplicates(file1, file2, file3, Locale.GERMANY);
         path += "numeric/";
         file1 = new File(path + "test1.xlsx");
         file2 = new File(path + "test2.xlsx");
         file3 = new File(path + "test.xlsx");
-        helper.removeDuplicates(file1, file2, file3);
+        helper.removeDuplicates(file1, file2, file3, Locale.GERMANY);
     }
 
 }
