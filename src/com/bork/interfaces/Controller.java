@@ -4,6 +4,7 @@ import com.bork.exceptions.FileNotSupportedException;
 import com.bork.exceptions.NotSameTypeException;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * CSVDiff
@@ -23,10 +24,11 @@ public interface Controller {
      * @param oldFile
      * @param newFile
      * @param saveFile
+     * @param locale
      * @throws NullPointerException
      * @throws NotSameTypeException
      */
-    void processFiles(File oldFile, File newFile, File saveFile) throws NullPointerException, NotSameTypeException, FileNotSupportedException;
+    void processFiles(File oldFile, File newFile, File saveFile, Locale locale) throws NullPointerException, NotSameTypeException, FileNotSupportedException;
 
     /**
      * Sets the current progress to {@param value}.

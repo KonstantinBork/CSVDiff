@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * CSVDiff
@@ -35,7 +36,7 @@ public class CSVHelper implements Helper {
     }
 
     @Override
-    public void removeDuplicates(File oldFile, File newFile, File saveFile) {
+    public void removeDuplicates(File oldFile, File newFile, File saveFile, Locale locale) {
         try {
             improveContentOfInputFiles(oldFile, newFile);
             Logger.log("Reading old file");
